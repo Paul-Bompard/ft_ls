@@ -34,37 +34,36 @@ static void			sort_equ(t_env *e, t_elem *list)
 		sort_diff(e, list);
 }
 
-static void			assign_path(t_env *e, t_elem *list,\
-							 struct stat *stt, struct stat *sttn)
+static void			assign_path(t_env *e, t_elem *list)
 {
 	e->boolean = 0;
 	while (list->next != NULL)
 	{
 		if (list->data && list->next->data)
 		{
-			stt = ft_stats("now", e, list, stt);
-			sttn = ft_stats("next", e, list, sttn);
-			if (stt->st_mtime == sttn->st_mtime)
+			ft_stats("now", e, list);
+			ft_stats("next", e, list);
+			if (e->stt->st_mtime == e->sttn->st_mtime)
 				sort_equ(e, list);
-			else if (stt->st_mtime > sttn->st_mtime)
+			else if (e->stt->st_mtime > e->sttn->st_mtime)
 				sort_diff(e, list);
 		}
 		list = list->next;
 	}
 }
 
-void		 		ft_rev_date_sort(t_env *e, t_elem *list)
+void				ft_rev_date_sort(t_env *e, t_elem *list)
 {
 	t_elem			*begin;
-	struct stat		*stt;
-	struct stat		*sttn;
 
-	stt = malloc(sizeof(struct stat));
-	sttn = malloc(sizeof(struct stat));
+	// free(e->stt);
+	// free(e->sttn);
+	// e->stt = malloc(sizeof(struct stat));
+	// e->sttn = malloc(sizeof(struct stat));
 	begin = list;
 	while (e->boolean == 1)
 	{
-		assign_path(e, list, stt, sttn);
+		assign_path(e, list);
 		list = begin;
 	}
 }

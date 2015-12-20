@@ -25,8 +25,8 @@ void				option_un(void)
 			new = add_end(&new, reader->d_name);
 	while (new->next != NULL)
 	{
-			ft_putendl(new->next->data);
-			new = new->next;
+		ft_putendl(new->next->data);
+		new = new->next;
 	}
 	closedir(a);
 }

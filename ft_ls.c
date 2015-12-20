@@ -14,30 +14,27 @@
 
 static void		ft_total(t_elem *list, t_env *e)
 {
-	struct stat	*stats;
 	int			i;
-	char		*currentPath;
+	char		*current_path;
 
-	stats = malloc(sizeof(struct stat));
-	currentPath = (char *)malloc(sizeof(char) * FILENAME_MAX);
+	current_path = (char *)malloc(sizeof(char) * FILENAME_MAX);
 	i = 0;
-	while(list->next != NULL)
+	while (list->next != NULL)
 	{
-		ft_bzero(currentPath, FILENAME_MAX);
+		ft_bzero(current_path, FILENAME_MAX);
 		list = list->next;
 		if (e->targets[e->i][0] != '/')
 		{
-			getcwd(currentPath, FILENAME_MAX);
-			strcat(currentPath, "/");
+			getcwd(current_path, FILENAME_MAX);
+			ft_strcat(current_path, "/");
 		}
-		strcat(currentPath, e->targets[e->i]);
-		strcat(currentPath, "/");
-		strcat(currentPath, list->data);
-		// printf("%s\n", currentPath);
-		if (stat(currentPath, stats) >= 0)
-			i += (stats->st_blocks);   /* number of 512B blocks allocated */
-		else if (lstat(list->data, stats) >= 0)
-			i += (stats->st_blocks);   /* number of 512B blocks allocated */
+		ft_strcat(current_path, e->targets[e->i]);
+		ft_strcat(current_path, "/");
+		ft_strcat(current_path, list->data);
+		if (stat(current_path, e->stt) >= 0)
+			i += (e->stt->st_blocks);
+		else if (lstat(list->data, e->stt) >= 0)
+			i += (e->stt->st_blocks);
 	}
 	ft_putstr("total ");
 	ft_putnbr(i);
@@ -49,7 +46,7 @@ static void		ft_print_ls(t_elem *list, t_env *e)
 	if (e->flags & L_FLAG)
 		ft_total(list, e);
 	while (list->next != NULL)
-	{		
+	{
 		list = list->next;
 		if (e->flags & L_FLAG)
 		{
@@ -76,7 +73,7 @@ static void		ft_print_ls(t_elem *list, t_env *e)
 	}
 	if ((e->targets[e->i + 1]))
 		ft_putstr("\n");
-}	
+}
 
 void			what_flags(t_env *e, t_elem *list)
 {
@@ -98,13 +95,9 @@ void			what_flags(t_env *e, t_elem *list)
 		ft_putendl(":");
 	}
 	ft_print_ls(list, e);
-
-
 	if (e->flags & UR_FLAG && i == 0)
 	{
 		i++;
 		recursive(e, list, e->targets[e->i]);
 	}
-
-	// ft_putstr("\n");
 }

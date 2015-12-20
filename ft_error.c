@@ -12,7 +12,7 @@
 
 #include "ft_ls.h"
 
-void		ft_error(int err, char c, char *str, int exit_check)
+void	ft_error(int err, char c, char *str, int exit_check)
 {
 	if (err == 0)
 	{

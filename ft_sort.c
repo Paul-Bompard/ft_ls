@@ -31,12 +31,10 @@ static void		sort_equ(t_env *e, t_elem *list)
 			list->data[i] == list->next->data[i])
 		i++;
 	if (list->data[i] > list->next->data[i] || !(list->next->data))
-{
-				// printf("COUCOU\n");
 		sort_diff(e, list);
-}}
+}
 
-void		 	ft_sort(t_env *e, t_elem *list)
+void			ft_sort(t_env *e, t_elem *list)
 {
 	t_elem		*begin;
 
@@ -44,23 +42,10 @@ void		 	ft_sort(t_env *e, t_elem *list)
 	while (e->boolean == 1)
 	{
 		e->boolean = 0;
-
-
-		// while (list->next != NULL)
-		// {
-		// 	printf("%s\n", list->data);
-		// 	list = list->next;
-		// }
-
 		while (list->next != NULL)
 		{
 			if (list->data && list->next->data)
-			{
-				// if (list->data[0] == list->next->data[0])
-					sort_equ(e, list);
-				// else if (list->data[0] > list->next->data[0])
-				// 	sort_diff(e, list);
-			}
+				sort_equ(e, list);
 			list = list->next;
 		}
 		list = begin;

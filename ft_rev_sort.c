@@ -34,7 +34,7 @@ static void		sort_equ(t_env *e, t_elem *list)
 		sort_diff(e, list);
 }
 
-void		 	ft_rev_sort(t_env *e, t_elem *list)
+void			ft_rev_sort(t_env *e, t_elem *list)
 {
 	t_elem		*begin;
 

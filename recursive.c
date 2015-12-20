@@ -12,19 +12,38 @@
 
 #include "ft_ls.h"
 
-void	recursive(t_env *e, t_elem *list, char *target)
+void			recursive(t_env *e, t_elem *list, char *target)
 {
 	t_elem		*tmp;
 
 	while (list->next != NULL)
 	{
 		list = list->next;
-		printf("target = %s\n", ft_strjoin(ft_strjoin(target, "/"), list->data));
-		if (list->type == 'd' && opendir(ft_strjoin(ft_strjoin(target, "/"), list->data)))
-		{
-			tmp = create_all_elem(e, ft_strjoin(ft_strjoin(target, "/"), list->data));
+
+
+
+		// printf("target = %s\n", ft_strjoin(ft_strjoin(target, "/"),\
+		// 	list->data));
+
+
+		// printf("list->data = %s\n", list->data);
+// check list->data
+
+
+
+
+		// if (list->type == 'd' && opendir(ft_strjoin(ft_strjoin(target, "/"),\
+		// 	list->data)) && (ft_strcmp(list->data, ".")) &&\
+		// 	(ft_strcmp(list->data, "..")))
+		if (list->type == 'd' && opendir(ft_strjoin(ft_strjoin(target, "/"),\
+			list->data)) && (ft_strcmp(list->data, ".")) &&\
+			(ft_strcmp(list->data, "..")))		{
+			tmp = create_all_elem(e, ft_strjoin(ft_strjoin(target, "/"),\
+				list->data));
 			what_flags(e, tmp);
-			recursive(e, tmp, ft_strjoin(ft_strjoin(target, "/"), list->data));
+			// clear_list(&list);
+			recursive(e, tmp, ft_strjoin(ft_strjoin(target, "/"),\
+				list->data));
 		}
 	}
 }

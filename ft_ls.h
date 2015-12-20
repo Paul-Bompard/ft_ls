@@ -33,6 +33,10 @@
 # include <grp.h>
 # include <pwd.h>
 
+#include <string.h>
+
+
+
 # include <stdio.h>
 
 typedef struct		s_elem
@@ -65,6 +69,14 @@ typedef struct		s_env
 	int				len_owner;
 	int				len_group;
 	int				len_size;
+
+
+	struct stat		*stt;
+	struct stat		*sttn;
+
+
+
+
 }					t_env;
 
 // typedef struct		s_list
@@ -92,8 +104,10 @@ void				clear_list(t_elem **begin_list);
 t_elem				*create_all_elem(t_env *e, char *target);
 int					otoi(unsigned int n);
 void				sort_path(t_env *e);
-struct stat			*ft_stats(char *str, t_env *e, t_elem *list, struct stat *stats);
-void				stat_lstat(struct stat *stats, t_env *e, t_elem *list);
+
+void				ft_stats(char *str, t_env *e, t_elem *list);
+void				stat_lstat(t_env *e, t_elem *list);
+
 void				ft_init_size(int i, t_env *e, char *str);
 void				ft_indent(char *str, t_env *e, char *corresp);
 void				recursive(t_env *e, t_elem *list, char *target);

@@ -12,28 +12,29 @@
 
 #include "ft_ls.h"
 
-void			stat_lstat(struct stat *stats, t_env *e, t_elem *list)
+void	stat_lstat(t_env *e, t_elem *list)
 {
-	stats = ft_stats("now", e, list, stats);
-	if (stats->st_mode & S_IFMT)
+	free(e->stt);
+	e->stt = malloc(sizeof(struct stat));
+	ft_stats("now", e, list);
+	if (e->stt->st_mode & S_IFMT)
 	{
-		if (S_ISDIR(stats->st_mode))
+		if (S_ISDIR(e->stt->st_mode))
 			list->type = 'd';
-		else if (S_ISLNK(stats->st_mode))
+		else if (S_ISLNK(e->stt->st_mode))
 		{
 			list->mode_link = '@';
 			list->type = 'l';
 		}
-		else if ((stats->st_mode & 0170000) == 0020000)
+		else if ((e->stt->st_mode & 0170000) == 0020000)
 			list->type = 'c';
-		else if ((stats->st_mode & 0170000) == 0060000)
+		else if ((e->stt->st_mode & 0170000) == 0060000)
 			list->type = 'b';
-		else if ((stats->st_mode & 0170000) == 0010000)
+		else if ((e->stt->st_mode & 0170000) == 0010000)
 			list->type = 'p';
-		else if ((stats->st_mode & 0170000) == 0140000)
+		else if ((e->stt->st_mode & 0170000) == 0140000)
 			list->type = 's';
 		else
 			list->type = '-';
 	}
-	// ft_lstat_more(stats, list);
 }

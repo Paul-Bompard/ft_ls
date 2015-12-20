@@ -17,15 +17,15 @@ void			nb_path(t_env *e)
 	int			i;
 
 	i = 0;
-	// printf("FLAGS : '%s'\n\n", e->pur_flags);
 	while (e->targets[i])
-	{
-		// printf("PATH %d : %s\n", i + 1, e->targets[i]);
 		i++;
-	}
 	e->nb_path = i;
-	// printf("\n");
 }
+
+/*
+**	Ligne à rajouter avant le i++:
+**	printf("PATH %d : %s\n", i + 1, e->targets[i]);
+*/
 
 static void		current_path(t_env *e)
 {
@@ -53,18 +53,16 @@ static int		ft_path_assign(t_env *e, int i, int k)
 		k++;
 	}
 	else
-
-
-
-// dire si c'est un fichier, un lien symbolique ou autre
-
-
-
-
 		ft_error(1, 0, e->av[i], 0);
-		// printf("ls: %s: No such file or directory\n", e->av[i]);
 	return (k);
 }
+
+/*
+**	À placer avant le else de ft_error
+**	else if (fichier ou lien symbolique)
+**	{
+**	}
+*/
 
 static void		path_extract(t_env *e, int i)
 {
@@ -111,7 +109,5 @@ void			flag_extract(t_env *e)
 	e->pur_flags[k] = '\0';
 	binary_flag(e);
 	path_extract(e, i);
-	// printf("%s\n", e->targets[0]);
-
 	nb_path(e);
 }

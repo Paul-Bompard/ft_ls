@@ -21,6 +21,8 @@ int				main(int argc, char **argv)
 	flag_extract(&e);
 	while (e.targets[e.i] && (e.boolean = 1))
 	{
+		e.stt = malloc(sizeof(struct stat));
+		e.sttn = malloc(sizeof(struct stat));
 		list = create_all_elem(&e, e.targets[e.i]);
 		what_flags(&e, list);
 		e.i += 1;
@@ -29,6 +31,8 @@ int				main(int argc, char **argv)
 		e.len_owner = 0;
 		e.len_group = 0;
 		e.len_size = 0;
+		free(e.stt);
+		free(e.sttn);
 	}
 	return (0);
 }

@@ -22,17 +22,11 @@ t_elem				*create_all_elem(t_env *e, char *target)
 	a = opendir(target);
 	if (e->flags & A_FLAG)
 		while ((reader = readdir(a)))
-		{
 			new = add_end(&new, reader->d_name);
-			// printf("ADD = '%s'\n", reader->d_name);
-		}
 	else
 		while ((reader = readdir(a)))
-		{
 			if (reader->d_name[0] != '.')
 				new = add_end(&new, reader->d_name);
-			// printf("ADD = '%s'\n", reader->d_name);
-		}
 	closedir(a);
 	return (new);
 }

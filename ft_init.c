@@ -24,4 +24,6 @@ void		ft_init(t_env *e, int argc, char **argv)
 	e->len_owner = 0;
 	e->len_group = 0;
 	e->len_size = 0;
+
+
 }

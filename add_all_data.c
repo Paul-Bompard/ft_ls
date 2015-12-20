@@ -33,13 +33,13 @@ static char				*assig_right(char *right, unsigned int i)
 	return (right);
 }
 
-static char				*stock_ctime(struct stat stats)
+static char				*stock_ctime(t_env *e)
 {
 	char				**times;
 	char				*hour;
 	char				*tmp;
 
-	times = ft_strsplit(ctime(&stats.st_mtime), ' ');
+	times = ft_strsplit(ctime(&e->stt->st_mtime), ' ');
 	tmp = " ";
 	tmp = ft_strjoin(tmp, times[1]);
 	tmp = ft_strjoin(tmp, " ");
@@ -47,21 +47,21 @@ static char				*stock_ctime(struct stat stats)
 		tmp = ft_strjoin(tmp, " ");
 	tmp = ft_strjoin(tmp, times[2]);
 	tmp = ft_strjoin(tmp, " ");
-	if (((int)stats.st_mtime + 15778463) >= time(NULL))
+	if (((int)e->stt->st_mtime + 15778463) >= time(NULL))
 	{
-		hour = ft_strsub(times[3],0,5);
+		hour = ft_strsub(times[3], 0, 5);
 		tmp = ft_strjoin(tmp, hour);
 	}
 	else
 	{
-		tmp = ft_strjoin(tmp, " "); 
-		tmp = ft_strjoin(tmp, ft_strsub(times[4],0,4));
+		tmp = ft_strjoin(tmp, " ");
+		tmp = ft_strjoin(tmp, ft_strsub(times[4], 0, 4));
 	}
-	tmp = ft_strjoin(tmp, " "); 
+	tmp = ft_strjoin(tmp, " ");
 	return (tmp);
 }
 
-static void				get_all(t_elem *list, struct stat stats, t_env *e)
+static void				get_all(t_elem *list, t_env *e)
 {
 	struct group		*grp;
 	struct passwd		*pwd;
@@ -69,19 +69,19 @@ static void				get_all(t_elem *list, struct stat stats, t_env *e)
 	unsigned int		uid;
 	unsigned int		i_right;
 
-	gid = stats.st_gid;
-	uid = stats.st_uid;
+	gid = e->stt->st_gid;
+	uid = e->stt->st_uid;
 	grp = getgrgid(gid);
 	pwd = getpwuid(uid);
-	list->links = stats.st_nlink;
+	list->links = e->stt->st_nlink;
 	list->owner = pwd->pw_name;
 	list->group = grp->gr_name;
-	list->size = stats.st_size;
-	list->last_change = stock_ctime(stats);
+	list->size = e->stt->st_size;
+	list->last_change = stock_ctime(e);
 	list->right = (char*)malloc(sizeof(char) * 9 + 1);
-	i_right = otoi(stats.st_mode & (S_IRWXU | S_IRWXG | S_IRWXO));
+	i_right = otoi(e->stt->st_mode & (S_IRWXU | S_IRWXG | S_IRWXO));
 	list->right = assig_right(assig_right(assig_right(list->right, \
-		 i_right / 100), i_right / 10 % 10), i_right % 10);
+		i_right / 100), i_right / 10 % 10), i_right % 10);
 	ft_init_size(ft_strlen(ft_itoa(list->links)), e, "links");
 	ft_init_size(ft_strlen(list->owner), e, "owner");
 	ft_init_size(ft_strlen(list->group), e, "group");
@@ -90,16 +90,16 @@ static void				get_all(t_elem *list, struct stat stats, t_env *e)
 
 void					add_all_data(t_elem **begin, t_env *e)
 {
-	struct stat			*stats;
 	t_elem				*list;
 
-	stats = malloc(sizeof(struct stat));
+	// free(e->stt);
+	// e->stt = malloc(sizeof(struct stat));
 	list = *begin;
 	while (list->next != NULL)
 	{
 		list = list->next;
-		stat_lstat(stats, e, list);
-		get_all(list, *stats, e);
+		stat_lstat(e, list);
+		get_all(list, e);
 	}
-	free(stats);
+	// free(e->stt);
 }
